@@ -1,5 +1,3 @@
-links = require('../_components/links/desktop.coffee')
-
 module.exports = 
   serverController: class
     constructor: (req, res, triggerView)->
@@ -10,6 +8,6 @@ module.exports =
       true
 
   view: ->
-    me.el('h1','Hello world')
+    m.el('h1','Hello world')
 
   route: '/'
