@@ -95,7 +95,7 @@ Property | Value
 * [m.multiClass](#app-multiclass)
 * [m.toString](#app-tostring)
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;<a name="app-query"></a>m.query(selectorOrRootElement, [selector])
+#### <a name="app-query"></a>m.query(selectorOrRootElement, [selector])
 An element querying function that returns either an array of matched elements, or a single element if the matched set has only a single item in it.
 
 **Arguments**
@@ -104,7 +104,7 @@ An element querying function that returns either an array of matched elements, o
 
 <p>&nbsp;</p>
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;<a name="app-tostring"></a>m.toString(module, callback, [request, response])
+#### <a name="app-tostring"></a>m.toString(module, callback, [request, response])
 Takes a defined `module` and renders it to pure HTML, for use in server-side rendering of a client-side module. Strips any functions / events from rendered elements. This method is asynchronous, and the final HTML is returned as the sole argument passed to the `callback` function.
 
 **Arguments**
@@ -115,9 +115,153 @@ Takes a defined `module` and renders it to pure HTML, for use in server-side ren
 
 <p>&nbsp;</p>
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;<a name="app-matches"></a>m.matches(element, selector)
+#### <a name="app-matches"></a>m.matches(element, selector)
 Takes an element and returns a boolean that describes whether or not it matches the selector provided. Useful for binding events high in the DOM, and only firing with a bubbled event target matches certain conditions.
 
 **Arguments**
 * `element` - The DOM element to inspect
 * `selector` - The string CSS selector to compoare te element against
+
+<p>&nbsp;</p>
+
+#### <a name="app-ready"></a>m.ready(callback)
+A method similar to jQuery's `$(document).ready(function(){})`, or `$(function(){})`, that you can call any number of times, each time passing in a function to call when the Mithril app is ready. If called before readyState, the functions are queued in order, otherwise they're invoked immediately. 
+
+**Arguments**
+* `callback` - The function to run when ready
+
+<p>&nbsp;</p>
+
+#### <a name="app-register"></a>m.register(module)
+Takes a defined `module` and registers it for use when [m.start](#app-start) is called. All modules that are accessible via URL routes **must** be registered.
+
+**Arguments**
+* `module` - The Mithril app module to render (see [Module definition](#module))
+
+<p>&nbsp;</p>
+
+#### <a name="app-start"></a>m.start(rootElement)
+Starts the Mithril routing engine, drawing all matched routes / modules into the defined `rootElement`. Any modules registered after calling start won't appear in the application.
+
+**Arguments**
+* `rootElement` - The DOM element that serves as the container for all the views. Generally this is the body tag
+
+<p>&nbsp;</p>
+
+#### <a name="app-component"></a>m.component(module)
+Creates a component out of any Mithril module, and returns a function that can be invoked to return that components's view contents. Unlike a traditional module, a component is meant to be abstracted away, and shared in many other modules, behaving like a sub-module. Since new controllers should never be instantiated inside views, the component method calls the passed module's controller only once, and then itself acts as a function that gets the view with that controller fed to it.
+
+**Arguments**
+* `module` - The Mithril module (see [Module definition](#module)) that acts as the basis for the component
+
+**Example**
+
+```javascript
+var pageHeader = m.component({
+    controller: function(){
+        this.userName = 'Foo bar';
+        this.whoAmI = function(){
+            alert(this.userName);
+        };
+    },
+    view: function(ctrl){
+        return m.el('header',[
+            m.el('a',{
+                onclick: ctrl.whoAmI
+            })
+        ]);
+    }
+});
+
+var someRealModule = {
+    controller: function(){},
+    view: function(ctrl){
+        return [
+            pageHeader(),
+            m.el('section',"Hello, I'm a module")
+        ];
+    }
+};
+
+m.register(someRealModule);
+```
+
+<p>&nbsp;</p>
+
+#### <a name="app-refresh"></a>m.refresh()
+A helper method that "refreshes" the current app route (not a window refresh). It's a short hand for manually routing to the current route the user is already on, thus instantiating a controller and triggering the view to redraw.
+
+<p>&nbsp;</p>
+
+#### <a name="app-el"></a>m.el(tag, hashOrChildren, [children])
+A proxy for the out-of-the-box Mithril m() function, with the benefit of monitoring all elements that event event handlers bound to them, and converting those to event listeners which are automatically unbound anytime the view is destroyed.
+
+**Arguments**
+
+See the [Mithril docs](http://lhorie.github.io/mithril/mithril.html#usage)
+
+<p>&nbsp;</p>
+
+#### <a name="app-ajax"></a>m.ajax(configs)
+A wrapper around the default `m.request()` method, but structured to behave more like the jQuery ajax function. Instead of returning a promise as the default `m.request()` does, it return the XHR object, thus making it cancellable easily.
+
+**Arguments**
+
+It takes a single `configs` object, which accepts properties as defined below: 
+
+Property | Value
+--- | ---
+`method` | Either `GET`, `POST`, `HEAD`, `PUT`, or `DELETE`
+`data` | An optional object that represents either the body data for `PUT` or `POST` requests, or querystring params for `GET`, `HEAD`, and `DELETE` requests
+`headers` | An optional object that represents key-value pairs of data to send along in the headers of the request
+`complete` | A function to call on completion or abortion of the underlying XHR request. It takes two parameters: (`error`, `data`). `error` is the information passed back from any non-successful completion or `null` if successful, and `data` is the information passed back from a successul completion or `null` if unsuccessful
+
+<p>&nbsp;</p>
+
+#### <a name="app-extend"></a>m.extend(to, from)
+Much like `jQuery.extend()`, this methods takes properties from the `from` object and applies them to the `to` object. This process is recursive, so anyone sub-objects from both objects will be extended instead of being replaced entirely.
+
+**Arguments**
+
+See the [Mithril docs](http://lhorie.github.io/mithril/mithril.html#usage)
+
+<p>&nbsp;</p>
+
+#### <a name="app-multiClass"></a>m.multiClass(subClass1, [subClassN...])
+For those of us that develop in CoffeeScript, this method allows for composition of many aritrary subclasses onto a new class when passed to Coffee's built in `extend` functionality.
+
+**Example**
+
+```coffeescript
+  FooClass = class
+    constructor: ->
+      @className = 'foo'
+    
+    identify: ->
+      @className
+  
+  BarClass = class
+    constructor: ->
+      @className = 'bar'
+    
+    amIFoo: ->
+      @className is 'foo'
+  
+  FinalClass = class extends m.multiClass(FooClass, BarClass)
+    constructor: (@someNumber)->
+
+  
+  made = new FinalClass(3)
+  
+  made.someNumber
+  # 3
+  
+  m.className
+  # 'bar'
+  
+  m.amIFoo()
+  # false
+  
+  m.identify()
+  # 'bar'
+```
