@@ -1,5 +1,4 @@
 express = require('express')
-Boxy = require('BoxyBrown')
 uuid = require('uuid')
 
 serverShared = "#{__dirname}/../../modules_server/_utilities"

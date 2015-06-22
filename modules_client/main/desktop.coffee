@@ -4,6 +4,7 @@ desktop = ->
 
   for module in [
     require('./../index/desktop.coffee')
+    require('./../login/desktop.coffee')
   ]
     m.register(module)
 
