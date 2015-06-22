@@ -43,8 +43,8 @@ buildStaticRoute = (route, module) ->
     m.toString(module, (html)->
       Boxy.TokenReplacer("#{__dirname}/../../public/index.html", {
         compiledHtml: html
-        keywords: 'foo, bar'
-        description: 'my site'
+        keywords: ''
+        description: ''
       }, (err, data)->
         res.end(err or data)
       )
