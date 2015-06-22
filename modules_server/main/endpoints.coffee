@@ -24,19 +24,6 @@ Router.use(Boxy.ScssCss(
 ))
 
 
-Router.use(Boxy.CoffeeJs(
-  route: '/js/mobile.js'
-  source: "#{clientFolder}/main/mobile.coffee"
-  debug: true
-))
-
-
-Router.use(Boxy.ScssCss(
-  route: '/css/mobile.css'
-  source: "#{clientFolder}/main/mobile.scss"
-  debug: true
-))
-
 
 buildStaticRoute = (route, module) ->
   Router.get(route, (req, res)->

@@ -28,7 +28,7 @@ Path | Use
 `/_utilities/authenticated_route.coffee` | A default Express router to use for when the endpoints require an authenticated logged in user to complete
 `/_utilities/open_route.coffee` | A default Express router to use for publicly accessible endpoints
 `/_utilities/util.coffee` | A generic utility file that's used in some of the routes
-`/main/endpoints.coffee` | Configures the routes for the static files, sets up the Browserify file paths, and finds & includes all the `endpoints.coffee` files
+`/main/endpoints.coffee` | Configures the routes for the static files, sets up the Browserify file paths, and finds & includes all the `endpoints.coffee` files [Endpoints Definition](#endpoints)
 
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;/modules_client
@@ -46,27 +46,29 @@ Path | Use
 `/_utilties/utils.coffee` | A generic utility file that currently contains a method for invalidating a user session on the client-side
 `/index/desktop.coffee` | The default controller and view for the root `/` path
 `/login/desktop.coffee` | An example login module that has both a client-side and server-side controller / view
-`/login/endpoints.coffee` | The server-side log in / log out endpoints for the above module
+`/login/endpoints.coffee` | The server-side log in / log out endpoints for the above module [Endpoints Definition](#endpoints)
 `/main/scss/defaults.scss` | A base SCSS file that would contain global rules shared between desktop and mobile experiences
 `/main/scss/mixins.scss` | A global file for housing SCSS mixins to include in other files
-`/main/desktop.coffee` | The upper-most desktop experience JS file that's injected to the browser via Browserify
-`/main/desktop.scss` | The upper-most desktop experience SCSS file that's injected to the browser via Browserify
+`/main/desktop.coffee` | The upper-most desktop experience JS file that's injected to the browser via Browserify [See](https://github.com/msandow/mithril-app-template/blob/master/modules_server/main/endpoints.coffee#L13)
+`/main/desktop.scss` | The upper-most desktop experience SCSS file that's injected to the browser via Browserify [See](https://github.com/msandow/mithril-app-template/blob/master/modules_server/main/endpoints.coffee#L20)
 
 
+### <a name="endpoints"></a>Endpoints Definition
 
-### <a name="extension"></a>Mithril App Extension
+This file must export the following structure:
 
 ```javascript
-Router.use(express.static(
-    "/myPublicFolder",
-    {
-        setHeaders: function(res, file, stats){
-            if(/\.map$/i.test(file) && !res.headersSent){
-                res.set('Content-Type', 'application/json');
-            }
-        }
-    }
-));
+module.exports = {
+    scope: 'endpoint-foo/bar',
+    router: new express.Router() || [new express.Router(), new express.Router()]
+};
 ```
-### <a name="endpoints"></a>Mithril App Extension
-### <a name="extension"></a>Endpoints Definition
+
+Here's a breakdown of the required properties being exported:
+
+Property | Value 
+:--- | :---
+`scope` | The preface to use for all the defined routes when applied to the main application. Namespacing helps keep actions separate, and prevents collisions
+`router` | Either an instance of a single Express router, or an array of Express routers should some of the routes require different permission levels
+
+### <a name="extension"></a>Mithril App Extension
