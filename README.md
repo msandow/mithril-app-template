@@ -3,7 +3,7 @@ Quick Mithril App
 
 ### Uses
 
-By doing a bare Git clone of this repository, you quickly get access to an app server that's based of the [Mithril MVC](http://lhorie.github.io/mithril/mithril.html), with a custom extension file that makes configuring a Mithril app a little more consistent. This combination not only makes for an extremely performant client-side app, but also uses the client-side views to create static server-side views too, so that all routes are crawler accesible and SEO friendly without having to set up a bunch of separate routes.
+By doing a Git clone of this repository, and removing the remote origin, you quickly get access to an app server that's based of the [Mithril MVC](http://lhorie.github.io/mithril/mithril.html), with a custom extension file that makes configuring a Mithril app a little more consistent. This combination not only makes for an extremely performant client-side app, but also uses the client-side views to create static server-side views too, so that all routes are crawler accesible and SEO friendly without having to set up a bunch of separate routes.
 
 Please refer to the [Mithril App Extension](#extension) section to see more info about what the extension provides.
 
