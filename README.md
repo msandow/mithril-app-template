@@ -1,15 +1,27 @@
 Quick Mithril App
 =================
 
-### Uses
+### Purpose
 
-By doing a Git clone of this repository, and removing the remote origin, you quickly get access to an app server that's based of the [Mithril MVC](http://lhorie.github.io/mithril/mithril.html), with a custom extension file that makes configuring a Mithril app a little more consistent. This combination not only makes for an extremely performant client-side app, but also uses the client-side views to create static server-side views too, so that all routes are crawler accesible and SEO friendly without having to set up a bunch of separate routes.
+By using this repo, you quickly get access to an app server that's based of the [Mithril MVC](http://lhorie.github.io/mithril/mithril.html), with a custom extension file that makes configuring a Mithril app a little more consistent. This combination not only makes for an extremely performant client-side app, but also uses the client-side views to create static server-side views too, so that all routes are crawler accesible and SEO friendly without having to set up a bunch of separate routes.
 
 Please refer to the [Mithril App Extension](#extension) section to see more info about what the extension provides.
 
 ---
 
-### Folder structure
+### Creating An App
+
+Once you've cloned this repo, you can simply run the custom `clone` npm command to clone it to directory of your choice, as seen below:
+
+```bash
+npm run clone ../my-new-folder
+```
+
+If `my-new-folder` doesn't exist, it'll be created and have `git init` run against it. Then, all the important files from this repo will be copied to that folder, and `npm install` will be run after copying. Any files of the same name already existing in the target directory will be replaced, so be sure to not run this command against any directory with local changes.
+
+---
+
+### Folder Structure
 
 There are three main folders that serve as the main basis for the app.
 
