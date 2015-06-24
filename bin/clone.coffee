@@ -4,6 +4,7 @@ PWD = path.resolve(__dirname, '..')
 async = require('async')
 exec = require('child_process').exec
 needToInit = false
+shouldCloneLocalDirs = false
 
 
 
@@ -45,6 +46,14 @@ async.series([
     )
 
   (cb)->
+    fs.exists(PWD + "/node_modules", (ex)->
+      shouldCloneLocalDirs = ex
+      cb()
+    )
+
+  (cb)->
+    cloneTree.push('node_modules') if shouldCloneLocalDirs
+  
     if not needToInit
       cb()
       return
@@ -84,16 +93,21 @@ async.series([
 
   (cb)->
     cloneTree.length = 0
-    expandedCloneTree = expandedCloneTree.map((i)->
-      {
-        from: i
-        to: i.replace(PWD, DIR)
-      }
-    )
+    expandedCloneTree = expandedCloneTree
+      .filter((i)->
+        i.indexOf(PWD + "/node_modules/async") is -1
+      )
+      .map((i)->
+        {
+          from: i
+          to: i.replace(PWD, DIR)
+        }
+      )
+
     cb()
 
   (cb)->
-    async.series(expandedCloneTree.map((i)->
+    async.parallelLimit(expandedCloneTree.map((i)->
       (scb)->
         if i.from[i.from.length-1] is '/'
           
@@ -117,7 +131,7 @@ async.series([
           
           rd.pipe(wr)
         
-    ), (err, results)->
+    ), 5, (err, results)->
       console.log("#{expandedCloneTree.length} files / directories copied")
       cb()
     )
@@ -135,15 +149,18 @@ async.series([
     )
 
   (cb)->
-    fs.exists(DIR + "/node_modules", (ex)->
-      if ex
-        cb()
-      else
-        console.log("Installing node modules")
-        exec("cd #{DIR} && npm install && cd #{PWD}", ()->
+    if not shouldCloneLocalDirs
+      fs.exists(DIR + "/node_modules", (ex)->
+        if ex
           cb()
-        )
-    )
+        else
+          console.log("Installing node modules")
+          exec("cd #{DIR} && npm install && cd #{PWD}", ()->
+            cb()
+          )
+      )
+    else
+      cb()
     
 ],(err, results)->
   console.log("Clone complete")
