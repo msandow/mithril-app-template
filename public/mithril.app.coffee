@@ -11,7 +11,7 @@ formatAjaxRequest = (ob) ->
   ob.complete = (->) if typeof ob.complete isnt 'function'
   ob.background = true
   
-  if ['HEAD','DELETE','GET'].indexOf(ob.method) > -1 and typeof ob.data is 'object' and Object.keys(ob.data).length
+  if ['HEAD', 'GET'].indexOf(ob.method) > -1 and typeof ob.data is 'object' and Object.keys(ob.data).length
     qs = []
     for own key, val of ob.data
       qs.push(encodeURIComponent(key) + "=" + encodeURIComponent(val))

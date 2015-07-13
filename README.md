@@ -238,7 +238,7 @@ It takes a single `configs` object, which accepts properties as defined below:
 Property | Value
 --- | ---
 `method` | Either `GET`, `POST`, `HEAD`, `PUT`, or `DELETE`
-`data` | An optional object that represents either the body data for `PUT` or `POST` requests, or querystring params for `GET`, `HEAD`, and `DELETE` requests
+`data` | An optional object that represents either the body data for `PUT`, `DELETE` or `POST` requests, or querystring params for `GET`, and `HEAD` requests
 `headers` | An optional object that represents key-value pairs of data to send along in the headers of the request
 `complete` | A function to call on completion or abortion of the underlying XHR request. It takes two parameters: (`error`, `data`). `error` is the information passed back from any non-successful completion or `null` if successful, and `data` is the information passed back from a successul completion or `null` if unsuccessful
 
