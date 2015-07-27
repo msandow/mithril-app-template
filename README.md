@@ -146,7 +146,7 @@ Takes an element and returns a boolean that describes whether or not it matches 
 
 **Arguments**
 * `element` - The DOM element to inspect
-* `selector` - The string CSS selector to compoare te element against
+* `selector` - The string CSS selector to compare the element against
 
 <p>&nbsp;</p>
 
@@ -253,7 +253,7 @@ See the [Mithril docs](http://lhorie.github.io/mithril/mithril.html#usage)
 
 <p>&nbsp;</p>
 
-#### <a name="app-multiClass"></a>m.multiClass(subClass1, [subClassN...])
+#### <a name="app-multiclass"></a>m.multiClass(subClass1, [subClassN...])
 For those of us that develop in CoffeeScript, this method allows for composition of many aritrary subclasses onto a new class when passed to Coffee's built in `extend` functionality.
 
 **Example**
