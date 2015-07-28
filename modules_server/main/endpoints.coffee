@@ -45,6 +45,8 @@ for deskTopModule in desktopStaticApp()
   else
     buildStaticRoute(deskTopModule.route, deskTopModule)
 
+Router.use(express.static(publicFolder))
+
 
 module.exports = 
   scope: '/'
