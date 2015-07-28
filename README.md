@@ -42,7 +42,7 @@ Path | Use
 `/_utilities/authenticated_route.coffee` | A default Express router to use for when the endpoints require an authenticated logged in user to complete
 `/_utilities/open_route.coffee` | A default Express router to use for publicly accessible endpoints
 `/_utilities/util.coffee` | A generic utility file that's used in some of the routes
-`/main/endpoints.coffee` | Configures the routes for the static files, sets up the Browserify file paths, and finds & includes all the `endpoints.coffee` files [Endpoints Definition](#endpoints)
+`/main/endpoints.coffee` | Configures the routes for the static files, sets up the Browserify file paths, sets a global `m` variable to emulate the window for accessing Mithril, and finds & includes all the `endpoints.coffee` files [Endpoints Definition](#endpoints)
 
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;/modules_client
