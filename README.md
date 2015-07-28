@@ -27,7 +27,7 @@ There are three main folders that serve as the main basis for the app.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;/Public
 
-`/public`, which serves as the static content directory served by the `express.static()` method. By default, `/modules_server/main/endpoints.coffee` sets up these static files and also leverages the `setHeaders` option to set the proper content-type for `.map` files, so that browsers can format and color code the files properly.
+`/public`, which serves as the static content directory served by the `express.static()` method. By default, `/modules_server/main/endpoints.coffee` sets up these static files and also sets up the BoxyBrown routes for the client side JS and CSS.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;/modules_server
 

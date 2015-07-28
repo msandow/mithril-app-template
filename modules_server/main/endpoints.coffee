@@ -46,15 +46,6 @@ for deskTopModule in desktopStaticApp()
     buildStaticRoute(deskTopModule.route, deskTopModule)
 
 
-Router.use(
-  express.static(publicFolder, setHeaders: (res, file, stats) ->
-    if /\.map$/i.test(file) and !res.headersSent
-      res.set('Content-Type', 'application/json')
-    return
-  )
-)
-
-
 module.exports = 
   scope: '/'
   router: Router
