@@ -1,10 +1,7 @@
 "use strict"
 
 isNode = typeof window is 'undefined'
-m = if isNode then require(__dirname + '/mithril.js') else window.m
 
-if isNode and not global.m
-  global.m = m
 
 formatAjaxRequest = (ob) ->
   ob.method = ob.method.toUpperCase()

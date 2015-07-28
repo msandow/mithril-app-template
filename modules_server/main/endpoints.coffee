@@ -6,6 +6,7 @@ sharedFolder = "#{__dirname}/../_utilities"
 publicFolder = "#{__dirname}/../../public"
 clientFolder = "#{__dirname}/../../modules_client"
 
+global.m = require("#{publicFolder}/mithril.js")
 desktopStaticApp = require("#{clientFolder}/main/desktop.coffee")
 
 Router = require("#{sharedFolder}/open_route.coffee")()
