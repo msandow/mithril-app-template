@@ -40,13 +40,13 @@ buildStaticRoute = (route, module) ->
   )
 
 for deskTopModule in desktopStaticApp()
-  if Array.isArray(deskTopModule.route)
-    for subRoute in deskTopModule.route
-      buildStaticRoute(subRoute, deskTopModule)
-  else
-    buildStaticRoute(deskTopModule.route, deskTopModule)
+  for subRoute in deskTopModule.route
+    buildStaticRoute(subRoute, deskTopModule)
+
+
 
 Router.use(express.static(publicFolder))
+
 
 
 module.exports = 
