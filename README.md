@@ -94,7 +94,7 @@ Each module is a simple object hash with the following properties:
 
 Property | Value 
 :--- | :---
-`controller` | A class definition that stores all the properties and methods used inside the view. At render time, this will be turned into an instance of this class
+`controller` | A class definition that stores all the properties and methods used inside the view. At render time, this will be turned into an instance of this class. If this class has a `onunload` property that's a function, the defined function will be called anytime this module is unloaded, either via `m.refresh()`, or an `a` tag with its config property set to `m.route` for links inside the same app.
 `view` | A function which takes a single argument (the instance of the above class), and returns the tree of `m.el()` elements that represent the markup for the module
 `route` | Either a single string, or an array of strings, which represents the route(s) which map to this specific module when requested from the app. For more examples see the [Mithril docs](http://lhorie.github.io/mithril/mithril.route.html)
 `serverController` | Behaves exactly like `controller` above, except, if defined, this will be used instead when [m.toString](#app-tostring) is called. Useful for changing properties, or where property data comes from, when generating static server-side views for SEO purposes. Unlike the regular `controller`, the `serverController` has a special signature, which you can find described below

@@ -5,9 +5,16 @@ module.exports =
     
   controller: class
     constructor: ->
+      document.addEventListener('click', @documentEvent)
       true
+    
+    onunload: ->
+      document.removeEventListener('click', @documentEvent)
+    
+    documentEvent: (evt)->
+      console.log(evt.target)
 
-  view: ->
+  view: ->    
     m.el('h1','Hello world')
 
   route: '/'

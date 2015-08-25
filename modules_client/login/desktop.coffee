@@ -9,8 +9,8 @@ module.exports =
         when undefined, false then 'Welcome'
       triggerView(@)
 
-  controller: class      
-    constructor: ->      
+  controller: class
+    constructor: ->
       @headerMessage = switch m.route.param("message")
         when 'timeout' then 'You\'ve timed out'
         when undefined, false then 'Welcome'
