@@ -138,6 +138,19 @@ Takes a defined `module` and renders it to pure HTML, for use in server-side ren
 * `request` - The optional Express request object, for use inside a module's `controller` (see [Module definition](#module)), should the controller need access to parameters or other request data
 * `response` - The optional Express response object, for use inside a module's `controller` (see [Module definition](#module))
 
+**Example**
+
+```coffeescript
+LogInModule = require('./modules/login.coffee')
+Router = new express.Router()
+
+Router.get('/login', (request, response)->
+    m.toString(LogInModule, (html, ctrl)->
+        res.send(html)
+    , request, response)
+)
+```
+
 <p>&nbsp;</p>
 
 #### <a name="app-matches"></a>m.matches(element, selector)
@@ -256,7 +269,7 @@ Property | Value
 <p>&nbsp;</p>
 
 #### <a name="app-multiclass"></a>m.multiClass(subClass1, [subClassN...])
-For those of us that develop in CoffeeScript, this method allows for composition of many aritrary subclasses onto a new class when passed to Coffee's built in `extend` functionality.
+For those of us that develop in CoffeeScript, this method allows for composition of many arbitrary subclasses onto a new class when passed to Coffee's built in `extend` functionality.
 
 **Example**
 
