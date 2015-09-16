@@ -1,9 +1,5 @@
 forms = require('./../_components/forms/desktop.coffee')
 
-idx = require('./../index/desktop.coffee')
-m.toString(idx, ()->
-  console.log(arguments)
-)
 
 module.exports =
   
