@@ -1,12 +1,20 @@
+secureAjax = require('./../_utilities/secureAjax.coffee')
+
 module.exports = 
-  serverController: class
-    constructor: (req, res, triggerView)->
-      triggerView(@)
     
   controller: class
     constructor: ->
       document.addEventListener('click', @documentEvent)
-      true
+      
+      @viewReady = false
+      
+      secureAjax(
+        method: 'GET'
+        url: '/endpoint/login/check/'
+        complete: (error, response)=>
+          @viewReady = true
+      )
+
     
     onunload: ->
       document.removeEventListener('click', @documentEvent)
@@ -14,7 +22,9 @@ module.exports =
     documentEvent: (evt)->
       console.log(evt.target)
 
-  view: ->    
+  view: (ctx)->
+    return m.el('span','loading...') if not ctx.viewReady
+    
     m.el('h1','Hello world')
 
   route: '/'

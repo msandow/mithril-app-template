@@ -8,6 +8,11 @@ do ->
     console.error('Global m variable not defined')
     return false
 
+
+  isModule = (ob) ->
+    ob.controller isnt undefined and ob.view isnt undefined
+
+
   formatAjaxRequest = (ob) ->
     ob.method = ob.method.toUpperCase()
     ob.complete = (->) if typeof ob.complete isnt 'function'
@@ -136,7 +141,6 @@ do ->
       configurable: false
       writable: false
       value: (module) ->
-        module.serverController = null if module.serverController is undefined
         module.controller = (->) if module.controller is undefined
         module.view = (-> return null) if module.view is undefined
         module.route = null if module.route is undefined or !module.route.length
@@ -278,12 +282,21 @@ do ->
       enumerable: true
       configurable: false
       writable: false
-      value: (extend = {}, using = {}) ->
-        for own kk, vv of using
-          if typeof vv is 'object' and not Array.isArray(vv) and typeof extend[kk] is 'object' and not Array.isArray(extend[kk])
-            extend[kk] = m.extend(extend[kk], vv)
-          else
-            extend[kk] = vv
+      value: (extend, using...) ->
+        if typeof extend isnt 'object'
+          console.error("Trying to extend", extend, "when it's not an object")
+          return
+        
+        for feed in using
+          if typeof feed isnt 'object'
+            console.error("Trying to extend", feed, "when it's not an object")
+            return
+          
+          for own kk, vv of feed
+            if typeof vv is 'object' and not Array.isArray(vv) and typeof extend[kk] is 'object' and not Array.isArray(extend[kk])
+              extend[kk] = m.extend(extend[kk], vv)
+            else
+              extend[kk] = vv
 
         extend
 
@@ -329,12 +342,12 @@ do ->
       value: (stack=null, cb=(->), req = null, res = null) ->
         cb('') if not stack
 
-        if isNode and typeof stack is 'object' and stack.serverController
+        if isNode and isModule(stack)
 
           # Mithril module with server-side controller
-          new stack.serverController(req, res, (ctrl)->
+          new stack.controller(req, res, (ctrl)->
             m.toString(stack.view(ctrl),(newHtml)->
-              cb(newHtml)
+              cb(newHtml, ctrl)
             )
           )
 
@@ -347,7 +360,7 @@ do ->
             # Array of plain Mithril objects
             shiftWalker(stack, cb, html, req, res)
 
-          else if (stack.controller is undefined or stack.serverController is undefined) and stack.view is undefined
+          else if stack.controller is undefined and stack.view is undefined
 
             # Plain Mithril objects
             html += "<#{stack.tag}" if stack.tag
@@ -369,10 +382,11 @@ do ->
 
           else
 
-            # Mithril module with client-side controller
-            m.toString(stack.view(new stack.controller()), (newHtml)->
+            # Mithril module with client-side controllerc
+            ctrl = new stack.controller()
+            m.toString(stack.view(ctrl), (newHtml)->
               html += newHtml
-              cb(html)
+              cb(html, ctrl)
             , req, res)
   )
 

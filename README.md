@@ -94,15 +94,14 @@ Each module is a simple object hash with the following properties:
 
 Property | Value 
 :--- | :---
-`controller` | A class definition that stores all the properties and methods used inside the view. At render time, this will be turned into an instance of this class. If this class has a `onunload` property that's a function, the defined function will be called anytime this module is unloaded, either via `m.refresh()`, or an `a` tag with its config property set to `m.route` for links inside the same app.
+`controller` | A class definition that stores all the properties and methods used inside the view. At render time, this will be turned into an instance of this class. If this class has a `onunload` property that's a function, the defined function will be called anytime this module is unloaded, either via `m.refresh()`, or an `a` tag with its config property set to `m.route` for links inside the same app.<br/><br/>When used inside NodeJS with ExpressJS, it behaves exactly like `controller`, except, this will be used when [m.toString](#app-tostring) is called, with a special signature, which you can find described below. Useful for changing properties, or where property data comes from, when generating static server-side views for SEO purposes.
 `view` | A function which takes a single argument (the instance of the above class), and returns the tree of `m.el()` elements that represent the markup for the module
 `route` | Either a single string, or an array of strings, which represents the route(s) which map to this specific module when requested from the app. For more examples see the [Mithril docs](http://lhorie.github.io/mithril/mithril.route.html)
-`serverController` | Behaves exactly like `controller` above, except, if defined, this will be used instead when [m.toString](#app-tostring) is called. Useful for changing properties, or where property data comes from, when generating static server-side views for SEO purposes. Unlike the regular `controller`, the `serverController` has a special signature, which you can find described below
 
-**serverController Arguments**
+**controller Arguments for used with ExpressJS inside NodeJS**
 * `request` - The Express request object for the matched route
 * `response` - The Express response object for the matched route
-* `viewTriggerFunction` - A function to indicate that the controller is complete enough for the server to use it to generate a view. In the browser, we can redraw the DOM as much as we want as events happen, but in Node we only get a single response that can be sent to the client. As such, you call this method when any events your serverController needs to acquire all necessary data are complete. If you never call this method, no response will be sent.
+* `viewTriggerFunction` - A function to indicate that the controller is complete enough for the server to use it to generate a view. In the browser, we can redraw the DOM as much as we want as events happen, but in Node we only get a single response that can be sent to the client. As such, you call this method when any events your controller needs to acquire all necessary data are complete. If you never call this method, no response will be sent.
 
 ---
 
@@ -135,9 +134,9 @@ Takes a defined `module` and renders it to pure HTML, for use in server-side ren
 
 **Arguments**
 * `module` - The Mithril app module to render (see [Module definition](#module))
-* `callback` - The function to call when rendering is complete. Gets passed a single argument, which is the final string of compiled HTML
-* `request` - The optional Express request object, for use inside a module's `serverController` (see [Module definition](#module)), should the controller need access to parameters or other request data
-* `response` - The optional Express response object, for use inside a module's `serverController` (see [Module definition](#module))
+* `callback` - The function to call when rendering is complete. Gets passed two arguments, the first is the final string of compiled HTML, and the second is the instance of the controller used to generate the view.
+* `request` - The optional Express request object, for use inside a module's `controller` (see [Module definition](#module)), should the controller need access to parameters or other request data
+* `response` - The optional Express response object, for use inside a module's `controller` (see [Module definition](#module))
 
 <p>&nbsp;</p>
 
@@ -244,12 +243,15 @@ Property | Value
 
 <p>&nbsp;</p>
 
-#### <a name="app-extend"></a>m.extend(to, from)
-Much like `jQuery.extend()`, this methods takes properties from the `from` object and applies them to the `to` object. This process is recursive, so anyone sub-objects from both objects will be extended instead of being replaced entirely.
+#### <a name="app-extend"></a>m.extend(to, from...)
+Much like `jQuery.extend()`, this methods takes properties from the `from` object(s) and applies them to the `to` object. This process is recursive, so anyone sub-objects from both objects will be extended instead of being replaced entirely.
 
 **Arguments**
 
-See the [Mithril docs](http://lhorie.github.io/mithril/mithril.html#usage)
+Property | Value
+--- | ---
+`to` | A base object to recursively extend properties onto
+`from...` | One or more objects to take the properties from
 
 <p>&nbsp;</p>
 

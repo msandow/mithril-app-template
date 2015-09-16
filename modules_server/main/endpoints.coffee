@@ -7,7 +7,7 @@ publicFolder = "#{__dirname}/../../public"
 clientFolder = "#{__dirname}/../../modules_client"
 
 global.m = require("#{publicFolder}/mithril.js")
-desktopStaticApp = require("#{clientFolder}/main/desktop.coffee")
+staticApp = require("#{clientFolder}/main/static.coffee")
 
 Router = require("#{sharedFolder}/open_route.coffee")()
 
@@ -28,7 +28,7 @@ Router.use(Boxy.ScssCss(
 
 buildStaticRoute = (route, module) ->
   Router.get(route, (req, res)->
-    m.toString(module, (html)->
+    m.toString(module, (html, ctrl)->
       Boxy.TokenReplacer("#{__dirname}/../../public/index.html", {
         compiledHtml: html
         keywords: ''
@@ -39,9 +39,9 @@ buildStaticRoute = (route, module) ->
     , req, res)
   )
 
-for deskTopModule in desktopStaticApp()
-  for subRoute in deskTopModule.route
-    buildStaticRoute(subRoute, deskTopModule)
+for staticModule in staticApp()
+  for subRoute in staticModule.route
+    buildStaticRoute(subRoute, staticModule)
 
 
 

@@ -1,14 +1,12 @@
 forms = require('./../_components/forms/desktop.coffee')
 
+idx = require('./../index/desktop.coffee')
+m.toString(idx, ()->
+  console.log(arguments)
+)
+
 module.exports =
   
-  serverController: class
-    constructor: (req, res, triggerView) ->
-      @headerMessage = switch req.params?.message
-        when 'timeout' then 'You\'ve timed out'
-        when undefined, false then 'Welcome'
-      triggerView(@)
-
   controller: class
     constructor: ->
       @headerMessage = switch m.route.param("message")

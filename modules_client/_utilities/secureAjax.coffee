@@ -8,7 +8,10 @@ module.exports = (configs) ->
       csrf: window?.sessionStorage?.getItem('csrf') or ''
     complete: (error, response, xhr) ->
       if error and xhr?.status is 401
-        invalidate('/login/timeout')
+        if window.sessionStorage.currentUser?        
+          invalidate('/login/timeout')
+        else
+          invalidate('/login')
         return 
 
       origCb.apply(this, arguments)
