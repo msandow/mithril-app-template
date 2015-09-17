@@ -5,10 +5,10 @@ module.exports = (configs) ->
   
   configs = m.extend(configs,
     headers:
-      csrf: window?.sessionStorage?.getItem('csrf') or ''
+      'x-csrf-token': window?.localStorage?.getItem('csrf') or ''
     complete: (error, response, xhr) ->
       if error and xhr?.status is 401
-        if window.sessionStorage.currentUser?        
+        if window.localStorage.currentUser?        
           invalidate('/login/timeout')
         else
           invalidate('/login')

@@ -13,7 +13,13 @@ do ->
     ob.controller isnt undefined and ob.view isnt undefined
 
 
+
+  routePaths = []
+
+
+
   formatAjaxRequest = (ob) ->
+    ob.method = 'GET' if !ob.method
     ob.method = ob.method.toUpperCase()
     ob.complete = (->) if typeof ob.complete isnt 'function'
     ob.background = true
@@ -28,6 +34,11 @@ do ->
       ob.data = {}
 
     ob
+
+
+
+  escapeRegExp = (s)  ->
+      s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 
 
 
@@ -76,6 +87,13 @@ do ->
 
 
 
+  oRoute = m.route
+  oRouteProps = {}
+  for own k,v of m.route
+    oRouteProps[k] = v
+
+
+
   Object.defineProperties(m,
     'query':
       enumerable: true
@@ -86,10 +104,9 @@ do ->
 
         if selector is undefined
           q = document.querySelectorAll.apply(document, [selectorOrElement])
-          return if q.length is 1 then q[0] else q
         else
           q = selectorOrElement.querySelectorAll.apply(selectorOrElement, [selector])
-          return if q.length is 1 then q[0] else q
+        return if q.length is 1 then q[0] else q
 
 
 
@@ -150,16 +167,35 @@ do ->
 
 
 
+    'route':
+      enumerable: true
+      configurable: false
+      writable: true
+      value: (first) ->
+        if typeof first is 'string'
+          if ! routePaths.some((i)-> i.test(first) )
+            console.error("No route #{first} defined")
+            return
+          
+        oRoute.apply(@, arguments)
+        oRoute
+
+
+
     'start':
       enumerable: true
       configurable: false
       writable: false
       value: (DOMRoot) ->
         return m.toRegister if isNode
-
+        
+        for own k,v of oRouteProps
+          m.route[k] = v
+        
         m.route.mode = "pathname"
+        
         routeHash = {}
-
+        
         while m.toRegister.length
           currMod = m.toRegister.shift()
 
@@ -171,10 +207,15 @@ do ->
           return console.warn("No root \"/\" route defined")
 
         m.route(DOMRoot, '/', routeHash) if Object.keys(routeHash).length
+        
+        routePaths = Object.keys(routeHash).map((i)->
+          i = i.replace(/\/:[^\/]+/gi, '/[^\/]+?')            
+          new RegExp("^" + i + "$")
+        )
 
 
 
-    'component':
+    'part':
       enumerable: true
       configurable: false
       writable: false

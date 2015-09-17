@@ -1,5 +1,4 @@
-forms = require('./../_components/forms/desktop.coffee')
-
+forms = require('./../_parts/forms/desktop.coffee')
 
 module.exports =
   
@@ -30,8 +29,8 @@ module.exports =
               alert('Please try again')
               return
 
-            window.sessionStorage.setItem('currentUser', response.userId)
-            window.sessionStorage.setItem('csrf', response.csrf)
+            window.localStorage.setItem('currentUser', response.userId)
+            window.localStorage.setItem('csrf', response.csrf)
 
             m.route('/dashboard')
         )

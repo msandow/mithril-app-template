@@ -49,13 +49,13 @@ Path | Use
 
 A list of directories that map to client-side modules (See [Module definition](#module)) that are likely to be served via Browserify or some other means to the browser. Like with `/modules_server`, the app will iterate through all directories here that aren't prefaced with an underscore, and automatically feed any routers returned from the `endpoints.coffee` coffee inside that sub-directory, to the main app Express router. See the [Endpoints Definition](#endpoints) for more information regarding creating these `endpoint.coffee` files.
 
-By default, this directory comes with a `/_utilties` directory that includes common things to share amongst all the other client modules, and a `_components` directory that contains shared HTML views / controllers. Notice, that because its name starts with an underscore, it won't be parsed by the app when looking for endpoints to include.
+By default, this directory comes with a `/_utilties` directory that includes common things to share amongst all the other client modules, and a `_parts` directory that contains shared HTML views / controllers. Notice, that because its name starts with an underscore, it won't be parsed by the app when looking for endpoints to include.
 
 <u>Default files included</u>
 
 Path | Use
 :--- | :---
-`/_components/forms/desktop.coffee` | A default desktop form builder / utilities file
+`/_parts/forms/desktop.coffee` | A default desktop form builder / utilities file
 `/_utilities/secureAjax.coffee` | A wrapper around the default Mithril app extension AJAX function automatically includes the CSRF headers for meeting the `/modules_server/_utilities/authenticated_route.coffee` criteria
 `/_utilties/utils.coffee` | A generic utility file that currently contains a method for invalidating a user session on the client-side
 `/index/desktop.coffee` | The default controller and view for the root `/` path. See [Module definition](#module)
@@ -112,7 +112,7 @@ Property | Value
 * [m.ready](#app-ready)
 * [m.register](#app-register)
 * [m.start](#app-start)
-* [m.component](#app-component)
+* [m.part](#app-part)
 * [m.refresh](#app-refresh)
 * [m.el](#app-el)
 * [m.ajax](#app-ajax)
@@ -186,16 +186,16 @@ Starts the Mithril routing engine, drawing all matched routes / modules into the
 
 <p>&nbsp;</p>
 
-#### <a name="app-component"></a>m.component(module)
-Creates a component out of any Mithril module, and returns a function that can be invoked to return that components's view contents. Unlike a traditional module, a component is meant to be abstracted away, and shared in many other modules, behaving like a sub-module. Since new controllers should never be instantiated inside views, the component method calls the passed module's controller only once, and then itself acts as a function that gets the view with that controller fed to it.
+#### <a name="app-part"></a>m.part(module)
+Creates a part out of any Mithril module, and returns a function that can be invoked to return that part's view contents. Unlike a traditional module, a part is meant to be abstracted away, and shared in many other modules, behaving like a sub-module. Since new controllers should never be instantiated inside views, the part method calls the passed module's controller only once, and then itself acts as a function that gets the view with that controller fed to it.
 
 **Arguments**
-* `module` - The Mithril module (see [Module definition](#module)) that acts as the basis for the component
+* `module` - The Mithril module (see [Module definition](#module)) that acts as the basis for the part
 
 **Example**
 
 ```javascript
-var pageHeader = m.component({
+var pageHeader = m.part({
     controller: function(){
         this.userName = 'Foo bar';
         this.whoAmI = function(){

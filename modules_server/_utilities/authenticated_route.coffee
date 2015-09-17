@@ -7,8 +7,8 @@ module.exports = () ->
   Router.use((req, res, next)->
     if !!(req.session?.userId &&
       req.session?.CSRF &&
-      req.headers.csrf &&
-      req.session.CSRF is req.headers.csrf &&
+      req.headers['x-csrf-token'] &&
+      req.session.CSRF is req.headers['x-csrf-token'] &&
       req.session?.expires &&
       req.session.expires - getUTCTime() > 0
     )

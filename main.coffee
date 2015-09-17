@@ -8,21 +8,22 @@ glob = require('glob')
 
 
 module.exports = ->
-
-  app.use(session(
-    genid: (req) ->
-      uuid.v4()
-    cookie:
-      maxAge: 2419200000
-    secret: '1234567890QWERTY'
-    saveUninitialized: true
-    resave: true
-  ))
-
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
   
   glob("#{__dirname}/modules{_server,_client}/!(_**)/endpoints.*",(err, files)->
+    app.use(session(
+      genid: (req) ->
+        uuid.v4()
+      cookie:
+        maxAge: 2419200000
+      secret: '1234567890QWERTY'
+      saveUninitialized: true
+      resave: true
+    ))
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+    
+  
     for file in files
       rtr = require(file)
       if !Array.isArray(rtr.router)
@@ -30,7 +31,11 @@ module.exports = ->
         else
           for subRouter in rtr.router
             app.use(rtr.scope, subRouter)
-
+    
+    app.use((req, res, next)->
+      res.redirect(301, '/404') if req.originalUrl isnt '/404'      
+    )
+    
     console.log('App started')
     app.listen(8000)
   )
