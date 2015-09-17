@@ -215,7 +215,7 @@ do ->
 
 
 
-    'part':
+    'cog':
       enumerable: true
       configurable: false
       writable: false

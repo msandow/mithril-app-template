@@ -1,4 +1,4 @@
-forms = require('./../_parts/forms/desktop.coffee')
+forms = require('./../_cogs/forms/desktop.coffee')
 
 module.exports =
   
