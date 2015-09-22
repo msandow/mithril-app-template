@@ -1,6 +1,6 @@
 module.exports = 
   
-  invalidateUser: (path = '/login') ->
+  invalidateUser: (path = '/user') ->
     window.localStorage.removeItem('currentUser')
     window.localStorage.removeItem('csrf')
     m.route(path)

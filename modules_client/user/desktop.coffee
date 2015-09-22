@@ -20,7 +20,7 @@ module.exports =
       else
         m.ajax(
           method: 'POST'
-          url: '/endpoint/login/login'
+          url: '/endpoint/user/login'
           data:
             un: @un()
             pw: @pw()
@@ -50,4 +50,4 @@ module.exports =
     ])
 
 
-  route: ['/login', '/login/:message']
+  route: ['/user', '/user/:message']

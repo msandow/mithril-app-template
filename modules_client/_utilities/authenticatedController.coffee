@@ -6,7 +6,7 @@ module.exports = class
     
     authAjax(
       method: 'GET'
-      url: '/endpoint/login/check/'
+      url: '/endpoint/user/check/'
       complete: (error, response)=>
         @viewReady = true
         cb.call(@)

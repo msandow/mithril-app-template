@@ -9,9 +9,9 @@ module.exports = (configs) ->
     complete: (error, response, xhr) ->
       if error and xhr?.status is 401
         if window.localStorage.currentUser?        
-          invalidate('/login/timeout')
+          invalidate('/user/timeout')
         else
-          invalidate('/login')
+          invalidate('/user')
         return 
 
       origCb.apply(this, arguments)

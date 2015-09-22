@@ -4,7 +4,7 @@ m.ready(->
   for module in [
     require('./../404/desktop.coffee')
     require('./../index/desktop.coffee')
-    require('./../login/desktop.coffee')
+    require('./../user/desktop.coffee')
   ]
     m.register(module)
 

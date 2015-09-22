@@ -61,12 +61,15 @@ Path | Use
 `/_utilities/authenticatedController.coffee` | A base controller class that can be extended for controllers inside modules that need automatic authentication. This sets a `viewReady` variable in the class that's set to false, and only toggled to true when the authenticated ajax call responds and is valid, allowing you to show a partial view while checking authentication.
 `/_utilties/utils.coffee` | A generic utility file that currently contains a method for invalidating a user session on the client-side
 `/index/desktop.coffee` | The default controller and view for the root `/` path. See [Module definition](#module)
-`/login/desktop.coffee` | An example login module that has both a client-side and server-side controller / view. See [Module definition](#module)
-`/login/endpoints.coffee` | The server-side log in / log out endpoints for the above module [Endpoints Definition](#endpoints)
+`/index/static.coffee` | Static server extension of the desktop controller / view
 `/main/scss/defaults.scss` | A base SCSS file that would contain global rules shared between desktop and mobile experiences
 `/main/scss/mixins.scss` | A global file for housing SCSS mixins to include in other files
 `/main/desktop.coffee` | The upper-most desktop experience JS file that's injected to the browser via Browserify [See](https://github.com/msandow/mithril-app-template/blob/master/modules_server/main/endpoints.coffee#L13)
 `/main/desktop.scss` | The upper-most desktop experience SCSS file that's injected to the browser via Browserify [See](https://github.com/msandow/mithril-app-template/blob/master/modules_server/main/endpoints.coffee#L20)
+`/main/static.coffee` | Static server extension of the desktop controller / view
+`/user/desktop.coffee` | An example login module that has both a client-side and server-side controller / view. See [Module definition](#module)
+`/user/endpoints.coffee` | The server-side log in / log out endpoints for the above module [Endpoints Definition](#endpoints)
+`/user/static.coffee` | Static server extension of the desktop controller / view
 
 ---
 

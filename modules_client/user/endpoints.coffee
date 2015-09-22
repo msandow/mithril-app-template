@@ -41,5 +41,5 @@ SecureRouter.get('/check', (req, res)->
 )
 
 module.exports = 
-  scope: '/endpoint/login'
+  scope: '/endpoint/user'
   router: [OpenRouter, SecureRouter]

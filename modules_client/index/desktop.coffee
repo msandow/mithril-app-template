@@ -1,5 +1,7 @@
 authController = require('./../_utilities/authenticatedController.coffee')
 internalLink = require('./../_cogs/links/desktop.coffee')
+authAjax = require('./../_utilities/authenticatedAjax.coffee')
+invalidate = require('./../_utilities/utils.coffee').invalidateUser
 
 module.exports = 
     
@@ -20,7 +22,20 @@ module.exports =
     
     [
       m.el('h1','Hello world')
-      internalLink('Same page', '/')
+      m.el('p', internalLink('Same page', '/'))
+      m.el('p', m.el('a', {
+        href: ''
+        onclick: (evt)->
+          evt.preventDefault()
+          
+          authAjax(
+            url: '/endpoint/user/logout/'
+            method: 'POST'
+            complete: ->
+              invalidate()
+          )
+          
+      }, 'Log out'))
     ]
 
   route: '/'

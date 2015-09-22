@@ -16,6 +16,8 @@ module.exports = ->
       secret: '1234567890QWERTY'
       saveUninitialized: true
       resave: true
+      cookie:
+        maxAge: (1000 * 60 * 60)
     ))
 
     app.use(bodyParser.urlencoded({ extended: false }))
