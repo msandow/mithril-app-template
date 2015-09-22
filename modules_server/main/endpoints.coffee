@@ -28,7 +28,6 @@ Router.use(Boxy.ScssCss(
 
 buildStaticRoute = (route, module) ->
   Router.get(route, (req, res)->
-    console.log(req.session?.userId)
     m.toString(module, (html, ctrl)->
       Boxy.TokenReplacer("#{__dirname}/../../public/index.html", {
         compiledHtml: html
