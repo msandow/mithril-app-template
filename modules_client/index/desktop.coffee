@@ -1,4 +1,5 @@
 authController = require('./../_utilities/authenticatedController.coffee')
+internalLink = require('./../_cogs/links/desktop.coffee')
 
 module.exports = 
     
@@ -17,6 +18,9 @@ module.exports =
   view: (ctx)->
     return m.el('span','loading...') if not ctx.viewReady
     
-    m.el('h1','Hello world')
+    [
+      m.el('h1','Hello world')
+      internalLink('Same page', '/')
+    ]
 
   route: '/'

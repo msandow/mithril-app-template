@@ -56,6 +56,7 @@ By default, this directory comes with a `/_utilties` directory that includes com
 Path | Use
 :--- | :---
 `/_cogs/forms/desktop.coffee` | A default desktop form builder / utilities file
+`/_cogs/links/desktop.coffee` | A default desktop A tag generator that links to other routes inside the same app
 `/_utilities/authenticatedAjax.coffee` | A wrapper around the default Mithril app extension AJAX function automatically includes the CSRF headers for meeting the `/modules_server/_utilities/authenticated_route.coffee` criteria
 `/_utilities/authenticatedController.coffee` | A base controller class that can be extended for controllers inside modules that need automatic authentication. This sets a `viewReady` variable in the class that's set to false, and only toggled to true when the authenticated ajax call responds and is valid, allowing you to show a partial view while checking authentication.
 `/_utilties/utils.coffee` | A generic utility file that currently contains a method for invalidating a user session on the client-side
