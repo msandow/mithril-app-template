@@ -32,7 +32,7 @@ module.exports =
             window.localStorage.setItem('currentUser', response.userId)
             window.localStorage.setItem('csrf', response.csrf)
 
-            m.route('/dashboard')
+            m.route('/')
         )
 
       false

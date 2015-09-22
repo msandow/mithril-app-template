@@ -14,7 +14,7 @@ module.exports = ->
       genid: (req) ->
         uuid.v4()
       cookie:
-        maxAge: 2419200000
+        maxAge: (1000 * 60 * 60)
       secret: '1234567890QWERTY'
       saveUninitialized: true
       resave: true

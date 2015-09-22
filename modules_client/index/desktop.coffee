@@ -1,20 +1,12 @@
-secureAjax = require('./../_utilities/secureAjax.coffee')
+authController = require('./../_utilities/authenticatedController.coffee')
 
 module.exports = 
     
-  controller: class
+  controller: class extends authController
     constructor: ->
-      document.addEventListener('click', @documentEvent)
-      
-      @viewReady = false
-      
-      secureAjax(
-        method: 'GET'
-        url: '/endpoint/login/check/'
-        complete: (error, response)=>
-          @viewReady = true
+      super(=>
+        document.addEventListener('click', @documentEvent)
       )
-
     
     onunload: ->
       document.removeEventListener('click', @documentEvent)
