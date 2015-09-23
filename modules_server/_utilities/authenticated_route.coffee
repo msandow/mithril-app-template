@@ -14,7 +14,13 @@ module.exports = () ->
     )
         next()
     else
-      req.session.destroy() if req.session?.userId
+      if !!(
+        req.session?.userId &&
+        req.session?.expires &&
+        req.session.expires - getUTCTime() <= 0
+      )
+        req.session.destroy()
+      
       res.status(401).json({message: 'Not logged in'}).end()
   )
   
