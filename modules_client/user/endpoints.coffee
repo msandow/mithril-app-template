@@ -32,12 +32,7 @@ SecureRouter.post('/logout', (req, res)->
 )
 
 SecureRouter.get('/check', (req, res)->
-  setTimeout(->
-    res.json({
-      userId: req.session.userId
-      name: 'Foobar'
-    })
-  , 500)
+  res.json({})
 )
 
 module.exports = 
