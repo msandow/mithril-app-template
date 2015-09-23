@@ -1,26 +1,15 @@
 express = require('express')
-getUTCTime = require('./utils.coffee').getUTCTime
+sessMgmt = require('./session_management.coffee')
 
 module.exports = () ->
   Router = new express.Router()
 
   Router.use((req, res, next)->
-    if !!(req.session?.userId &&
-      req.session?.CSRF &&
-      req.headers['x-csrf-token'] &&
-      req.session.CSRF is req.headers['x-csrf-token'] &&
-      req.session?.expires &&
-      req.session.expires - getUTCTime() > 0
-    )
-        next()
+    sess = sessMgmt(req, res)
+    
+    if sess.validate()
+      next()
     else
-      if !!(
-        req.session?.userId &&
-        req.session?.expires &&
-        req.session.expires - getUTCTime() <= 0
-      )
-        req.session.destroy()
-      
       res.status(401).json({message: 'Not logged in'}).end()
   )
   
