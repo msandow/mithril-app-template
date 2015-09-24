@@ -11,4 +11,4 @@ module.exports = ->
     else
       m.register(module)
 
-  m.start(m.query('body'))
+  m.start()
