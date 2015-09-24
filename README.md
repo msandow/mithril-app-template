@@ -125,8 +125,9 @@ Property | Value
 * [m.extend](#app-extend)
 * [m.multiClass](#app-multiclass)
 * [m.toString](#app-tostring)
+* [m.showIf](#app-if)
 
-#### <a name="app-query"></a>m.query(selectorOrRootElement, [selector])
+#### <a name="app-query"></a>m.query(selectorOrRootElement [, selector])
 An element querying function that returns either an array of matched elements, or a single element if the matched set has only a single item in it.
 
 **Arguments**
@@ -135,7 +136,7 @@ An element querying function that returns either an array of matched elements, o
 
 <p>&nbsp;</p>
 
-#### <a name="app-tostring"></a>m.toString(module, callback, [request, response])
+#### <a name="app-tostring"></a>m.toString(module, callback [, request, response])
 Takes a defined `module` and renders it to pure HTML, for use in server-side rendering of a client-side module. Strips any functions / events from rendered elements. This method is asynchronous, and the final HTML is returned as the sole argument passed to the `callback` function.
 
 **Arguments**
@@ -237,7 +238,7 @@ A helper method that "refreshes" the current app route (not a window refresh). I
 
 <p>&nbsp;</p>
 
-#### <a name="app-el"></a>m.el(tag, hashOrChildren, [children])
+#### <a name="app-el"></a>m.el(tag, hashOrChildren [, children])
 A proxy for the out-of-the-box Mithril m() function, with the benefit of monitoring all elements that event event handlers bound to them, and converting those to event listeners which are automatically unbound anytime the view is destroyed.
 
 **Arguments**
@@ -274,7 +275,7 @@ Property | Value
 
 <p>&nbsp;</p>
 
-#### <a name="app-multiclass"></a>m.multiClass(subClass1, [subClassN...])
+#### <a name="app-multiclass"></a>m.multiClass(subClass1 [, subClassN...])
 For those of us that develop in CoffeeScript, this method allows for composition of many arbitrary subclasses onto a new class when passed to Coffee's built in `extend` functionality.
 
 **Example**
@@ -312,3 +313,8 @@ For those of us that develop in CoffeeScript, this method allows for composition
   m.identify()
   # 'bar'
 ```
+
+<p>&nbsp;</p>
+
+#### <a name="app-if"></a>m.if(condition, element [, defaultVisibleStyle])
+A shorthand method of toggling an element's display visibility depending on the boolean value of a condition value. The default display value is set to `block` when the condition evaluates to true, but this value can be customized using the `defaultVisibleStyle` parameter.

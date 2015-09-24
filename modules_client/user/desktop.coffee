@@ -49,6 +49,10 @@ module.exports =
       m('br'),
       m.el('button', {disabled: ctx.disabled() isnt '0'}, 'Login'),
       m.trust('<p>&nbsp;</p>'),
+      m.if(
+        ctx.disabled() isnt '0',
+        m('span', {style:{'font-weight':700}},'Please click this box')
+      )
       forms.checkbox(ctx.disabled, '0', {name:'foo'})
     ])
 

@@ -72,7 +72,7 @@ do ->
 
     item = arr.shift()
 
-    shiftWalker(arr, final, seed, req, res) if not item
+    return shiftWalker(arr, final, seed, req, res) if not item
 
     if typeof item is 'string' or typeof item is 'number'
       shiftWalker(arr, final, seed + item, req, res)
@@ -407,7 +407,7 @@ do ->
 
             if stack.attrs and Object.keys(stack.attrs).length
               attrs = []
-              for own attr, val of stack.attrs when !/^on[A-Za-z]/.test(attr) and typeof val isnt 'function'
+              for own attr, val of stack.attrs when !/^on[A-Za-z]/.test(attr) and ['string','number'].indexOf(typeof val) > -1
                 val = val.replace(/"/gim, '\\"')
                 attrs.push("#{attr}=\"#{val}\"")
 
@@ -428,6 +428,30 @@ do ->
               html += newHtml
               cb(html, ctrl)
             , req, res)
+            
+      
+    'if':
+      enumerable: true
+      configurable: false
+      writable: false
+      value: (cond, el, whenVisible = 'block')->
+        reg = /(^|\s|;)(display\s*:\s*)([\w]+?;)/i
+        
+        vi = if cond then whenVisible else 'none'
+        
+        if el.attrs.style is undefined
+          el.attrs.style =
+            display: vi
+        else
+          if typeof el.attrs.style is 'string'
+            if reg.test(el.attrs.style)
+              el.attrs.style = el.attrs.style.replace(reg, "$1$2#{vi};")
+            else
+              el.attrs.style += "display:#{vi};"
+          else
+            el.attrs.style.display = vi
+
+        el
   )
 
   if isNode
