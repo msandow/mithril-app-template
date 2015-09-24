@@ -8,7 +8,7 @@ module.exports =
     
   controller: class extends m.multiClass(global, auth)
     constructor: ->
-      super(=>
+      @authenticate(=>
         @globalSetup()
         document.addEventListener('click', @documentEvent)
       )

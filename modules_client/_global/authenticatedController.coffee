@@ -1,7 +1,7 @@
 authAjax = require('./../_utilities/authenticatedAjax.coffee')
 
 module.exports = class
-  constructor: (cb)->
+  authenticate: (cb)->
     @viewReady = false
     
     authAjax(
