@@ -178,7 +178,6 @@ do ->
             return
           
         oRoute.apply(@, arguments)
-        oRoute
 
 
 

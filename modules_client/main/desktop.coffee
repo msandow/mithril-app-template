@@ -6,7 +6,10 @@ m.ready(->
     require('./../index/desktop.coffee')
     require('./../user/desktop.coffee')
   ]
-    m.register(module)
+    if Array.isArray(module)
+      m.register(subModule) for subModule in module      
+    else
+      m.register(module)
 
   m.start(m.query('body'))
 )

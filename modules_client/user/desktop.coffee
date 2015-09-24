@@ -10,6 +10,7 @@ module.exports =
 
       @un = m.prop("")
       @pw = m.prop("")
+      @disabled = m.prop('1')
 
 
     loginSubmit: (evt)->
@@ -42,11 +43,13 @@ module.exports =
       onsubmit: ctx.loginSubmit?.bind(ctx)
     },[
       m.el('h4',ctx.headerMessage)
-      forms.text(ctx.un, {placeholder: 'Username'}),
+      forms.text(ctx.un, {placeholder: 'Username', disabled: ctx.disabled() isnt '0'}),
       m('br'),
-      forms.password(ctx.pw, {placeholder: 'Password'}),
+      forms.password(ctx.pw, {placeholder: 'Password', disabled: ctx.disabled() isnt '0'}),
       m('br'),
-      m.el('button','Login')
+      m.el('button', {disabled: ctx.disabled() isnt '0'}, 'Login'),
+      m.trust('<p>&nbsp;</p>'),
+      forms.checkbox(ctx.disabled, '0', {name:'foo'})
     ])
 
 

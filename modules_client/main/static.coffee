@@ -6,6 +6,9 @@ module.exports = ->
     require('./../index/static.coffee')
     require('./../user/static.coffee')
   ]
-    m.register(module)
+    if Array.isArray(module)
+      m.register(subModule) for subModule in module      
+    else
+      m.register(module)
 
   m.start(m.query('body'))
