@@ -1,4 +1,4 @@
-authAjax = require('./authenticatedAjax.coffee')
+authAjax = require('./../_utilities/authenticatedAjax.coffee')
 
 module.exports = class
   constructor: (cb)->

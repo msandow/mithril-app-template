@@ -1,13 +1,15 @@
-authController = require('./../_utilities/authenticatedController.coffee')
+global = require('./../_global/desktopController.coffee')
+auth = require('./../_global/authenticatedController.coffee')
 internalLink = require('./../_cogs/links/desktop.coffee')
 authAjax = require('./../_utilities/authenticatedAjax.coffee')
 invalidate = require('./../_utilities/utils.coffee').invalidateUser
 
 module.exports = 
     
-  controller: class extends authController
+  controller: class extends m.multiClass(global, auth)
     constructor: ->
       super(=>
+        @globalSetup()
         document.addEventListener('click', @documentEvent)
       )
     

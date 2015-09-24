@@ -1,9 +1,12 @@
 forms = require('./../_cogs/forms/desktop.coffee')
+global = require('./../_global/desktopController.coffee')
 
 module.exports =
   
-  controller: class
+  controller: class extends global
     constructor: ->
+      @globalSetup()
+      
       @headerMessage = switch m.route.param("message")
         when 'timeout' then 'You\'ve timed out'
         when undefined, false then 'Welcome'
