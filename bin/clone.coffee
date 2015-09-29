@@ -1,7 +1,7 @@
 fs = require('fs')
 path = require('path')
 PWD = path.resolve(__dirname, '..')
-async = require('async')
+async = require('./../async.js')
 exec = require('child_process').exec
 needToInit = false
 shouldCloneLocalDirs = false
@@ -139,7 +139,6 @@ async.series([
   (cb)->
     fs.readFile(DIR + "/package.json", {encoding: 'utf8'}, (err, data)->
       fs.writeFile(DIR + "/package.json", data
-        .replace(/[\t\s]+"async":[\t\s]*".{1,1}[\d\.]+",*[\r\n]*/gim, '\r')
         .replace(/"name":[\t\s]*"(.*?)"/gim, '"name": ""')
         .replace(/[\t\s]+"clone":[\t\s]*"node_modules\/\.bin\/coffee\sbin\/clone\.coffee",*[\r\n]*/gim, '\r')
         ,

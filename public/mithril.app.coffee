@@ -407,9 +407,16 @@ do ->
 
             if stack.attrs and Object.keys(stack.attrs).length
               attrs = []
-              for own attr, val of stack.attrs when !/^on[A-Za-z]/.test(attr) and ['string','number'].indexOf(typeof val) > -1
-                val = val.replace(/"/gim, '\\"')
-                attrs.push("#{attr}=\"#{val}\"")
+              for own attr, val of stack.attrs when !/^on[A-Za-z]/.test(attr)
+                switch typeof val
+                  when 'string', 'number'
+                    val = String(val).replace(/"/gim, '\\"')
+                    attrs.push("#{attr}=\"#{val}\"")
+                  when 'object'
+                    str = ''
+                    for own kk, vv of val
+                      str += kk + ':' + String(vv).replace(/"/gim, '\\"') + ';'
+                    attrs.push("#{attr}=\"#{str}\"")
 
               html += " " + attrs.join(" ") if attrs.length
 
